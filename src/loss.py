@@ -50,7 +50,7 @@ def l2_norm(input):
     output = _output.view(input_size)
     return output
 
-class Proxy_Anchor(nn.Module):
+class ProxyAnchor(nn.Module):
     def __init__(self, device,nb_classes, sz_embed, mrg = 0.1, alpha = 32): #TODO nb_classes = 4
         nn.Module.__init__(self)
         # Proxy Anchor Initialization
@@ -83,3 +83,12 @@ class Proxy_Anchor(nn.Module):
         loss = pos_term + neg_term     
         
         return loss
+
+    
+def select_loss(which_loss, margin, device, num_classes=10, emb_size=3):
+    if(which_loss.lower() == "contrastive"):
+        criterion = ContrastiveLoss(margin)
+    elif(which_loss.lower() == "triplet"):
+        criterion = TripletLoss(margin)
+    elif(which_loss.lower() = "proxy_anchor"):
+        criterion = Proxy_Anchor(device,nb_classes=num_classes, sz_embed=emb_size, mrg=margin,alpha=0)
